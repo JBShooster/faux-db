@@ -24,6 +24,45 @@ get '/' do
   erb :index
 end
 
+get '/users/new' do
+  erb:new
+end
+
+post '/users' do
+  users.push id:id, name:params[:user]
+  id+=1
+  redirect to '/'
+end
+
+get '/users/:id' do
+  users.each do |user|
+    if(params[:id].to_i == user[:id])
+      @user = user
+    end
+  end
+  erb :editUser
+end
+
+
+put '/users/:id' do
+  users.each do |user|
+    if(params[:id].to_i == user[:id])
+      user[:name] = params[:user]
+      @user = user
+    end
+  end
+  redirect '/'
+end
+
+# DELETE /users/:id - delete a user by their id
+delete '/users/:id' do
+  users.each_with_index do |user, index|
+    if(params[:id].to_i == user[:id])
+      users.delete_at(index)
+    end
+  end
+  redirect '/'
+end
 # GET /users/new - display a form for making a new user
 #
 # POST /users - create a user based on params from form
